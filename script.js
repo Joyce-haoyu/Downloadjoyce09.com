@@ -1,59 +1,60 @@
-// 配置你的 GitHub 信息
-const USER = 'Joyce-haoyu'; 
-const REPO = 'downloadjoyce09.com';
+const CONFIG = {
+    user: 'joyce-haoyu',
+    repo: 'downloadjoyce09.com'
+};
 
-async function fetchGitHubFiles(path) {
-    const url = `https://api.github.com/repos/${USER}/${REPO}/contents/${path}`;
+// 切换到文件夹视图
+async function enterFolder(folderName) {
+    const homeView = document.getElementById('home-view');
+    const folderView = document.getElementById('folder-view');
+    const titleText = document.getElementById('folder-title-text');
+    
+    titleText.innerText = folderName === 'software' ? '软件资源' : '图库预览';
+    
+    homeView.classList.remove('active');
+    folderView.classList.add('active');
+    
+    await loadGitHubFiles(folderName);
+}
+
+// 返回首页
+function exitFolder() {
+    document.getElementById('folder-view').classList.remove('active');
+    document.getElementById('home-view').classList.add('active');
+}
+
+// 自动扫描 GitHub 仓库对应文件夹
+async function loadGitHubFiles(path) {
+    const container = document.getElementById('file-list');
+    container.innerHTML = '<p>正在同步 Joyce 的最新资源...</p>';
+    
     try {
-        const response = await fetch(url);
-        return await response.json();
-    } catch (error) {
-        console.error('获取文件失败:', error);
-        return [];
-    }
-}
-
-async function renderSite() {
-    const softwareList = document.getElementById('software-list');
-    const galleryList = document.getElementById('gallery-list');
-
-    // 1. 处理软件
-    const softwareFiles = await fetchGitHubFiles('software');
-    softwareList.innerHTML = '';
-    if (Array.isArray(softwareFiles)) {
-        softwareFiles.forEach(file => {
-            if (file.type === 'file') {
-                softwareList.innerHTML += `
-                    <a href="${file.download_url}" class="card">
-                        <div class="icon">📦</div>
-                        <div style="font-weight:600">${file.name}</div>
-                        <div class="btn">立即下载</div>
-                    </a>
-                `;
-            }
-        });
-    }
-
-    // 2. 处理图库
-    const galleryFiles = await fetchGitHubFiles('gallery');
-    galleryList.innerHTML = '';
-    if (Array.isArray(galleryFiles)) {
-        galleryFiles.forEach(file => {
-            if (file.type === 'file') {
-                const isVideo = file.name.endsWith('.mp4') || file.name.endsWith('.mov');
-                const mediaHtml = isVideo 
-                    ? `<video src="${file.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`
-                    : `<img src="${file.download_url}" alt="${file.name}">`;
+        const res = await fetch(`https://api.github.com/repos/${CONFIG.user}/${CONFIG.repo}/contents/${path}`);
+        const data = await res.json();
+        
+        container.innerHTML = '';
+        
+        data.forEach(item => {
+            if (item.type === 'file') {
+                const isImage = /\.(png|jpe?g|gif|webp)$/i.test(item.name);
+                const isVideo = /\.(mp4|mov)$/i.test(item.name);
                 
-                galleryList.innerHTML += `
-                    <div class="card">
-                        ${mediaHtml}
-                        <div style="font-size:12px; color:#86868b">${file.name}</div>
-                    </div>
+                let preview = `<div style="font-size:40px; margin-bottom:10px;">📄</div>`;
+                if (isImage) preview = `<img src="${item.download_url}">`;
+                if (isVideo) preview = `<video src="${item.download_url}" muted loop onmouseover="this.play()" onmouseout="this.pause()"></video>`;
+
+                const card = document.createElement('a');
+                card.className = 'file-item';
+                card.href = item.download_url;
+                card.setAttribute('download', '');
+                card.innerHTML = `
+                    ${preview}
+                    <div style="font-size:14px; word-break:break-all;">${item.name}</div>
                 `;
+                container.appendChild(card);
             }
         });
+    } catch (err) {
+        container.innerHTML = '<p>连接失败，请检查网络或 GitHub 仓库设置。</p>';
     }
 }
-
-window.onload = renderSite;
