@@ -7,27 +7,34 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav class="glass-nav">
-        <h1>Joyce的下载站</h1>
-    </nav>
+    <div class="bg-canvas"></div>
 
-    <main class="container">
-        <section id="software-section">
-            <h2 class="section-title">软件资源</h2>
-            <div class="grid" id="software-list">
-                <div class="loading">正在扫描文件库...</div>
+    <div id="app">
+        <section id="home-view" class="view active">
+            <h1 class="main-title">Joyce的下载站</h1>
+            <div class="menu-grid">
+                <div class="glass-card" onclick="enterFolder('software')">
+                    <div class="icon-wrap">🚀</div>
+                    <h2>软件资源</h2>
+                    <p>Windows / Android</p>
+                </div>
+                <div class="glass-card" onclick="enterFolder('gallery')">
+                    <div class="icon-wrap">🎞️</div>
+                    <h2>图库选项</h2>
+                    <p>精选影像集</p>
+                </div>
             </div>
         </section>
 
-        <section id="gallery-section">
-            <h2 class="section-title">图库预览</h2>
-            <div class="grid" id="gallery-list"></div>
+        <section id="folder-view" class="view">
+            <div class="nav-header">
+                <button class="btn-back" onclick="exitFolder()">← 首页</button>
+                <h2 id="folder-title-text">资源列表</h2>
+            </div>
+            <div id="file-list" class="file-grid">
+                </div>
         </section>
-    </main>
-
-    <footer>
-        <p>Design by Joyce • 2026</p>
-    </footer>
+    </div>
 
     <script src="script.js"></script>
 </body>
