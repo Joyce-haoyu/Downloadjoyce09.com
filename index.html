@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Joyce的下载站</title>
+    <title>Joyce yhy的下载站</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,29 +11,44 @@
 
     <div id="app">
         <section id="home-view" class="view active">
-            <h1 class="main-title">Joyce的下载站</h1>
+            <header class="header">
+                <h1 class="main-title">Joyce的下载站</h1>
+                <p class="subtitle">岳浩宇 imyhy.com 开发</p>
+            </header>
+            
             <div class="menu-grid">
-                <div class="glass-card" onclick="enterFolder('software')">
+                <div class="glass-card" onclick="openCategory('software')">
                     <div class="icon-wrap">🚀</div>
                     <h2>软件资源</h2>
-                    <p>Windows / Android</p>
+                    <p>常用应用下载</p>
                 </div>
-                <div class="glass-card" onclick="enterFolder('gallery')">
-                    <div class="icon-wrap">🎞️</div>
-                    <h2>图库选项</h2>
-                    <p>精选影像集</p>
+                <div class="glass-card" onclick="openCategory('gallery')">
+                    <div class="icon-wrap">🖼️</div>
+                    <h2>相册图库</h2>
+                    <p>精选图片集</p>
+                </div>
+                <div class="glass-card" onclick="openCategory('video')">
+                    <div class="icon-wrap">🎬</div>
+                    <h2>视频精选</h2>
+                    <p>蓝奏云视频分享</p>
                 </div>
             </div>
         </section>
 
-        <section id="folder-view" class="view">
+        <section id="list-view" class="view">
             <div class="nav-header">
-                <button class="btn-back" onclick="exitFolder()">← 首页</button>
-                <h2 id="folder-title-text">资源列表</h2>
+                <button class="btn-back" onclick="goBack()">← 返回首页</button>
+                <h2 id="category-title">资源列表</h2>
             </div>
-            <div id="file-list" class="file-grid">
+            
+            <div id="content-grid" class="file-grid">
                 </div>
         </section>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
     </div>
 
     <script src="script.js"></script>
