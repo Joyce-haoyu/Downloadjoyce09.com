@@ -76,3 +76,46 @@ body {
 .file-item img { width: 100%; border-radius: 12px; margin-bottom: 10px; object-fit: cover; }
 .item-title { font-size: 1.1rem; font-weight: 600; margin-bottom: 8px; word-break: break-all; }
 .item-action { font-size: 0.85rem; color: #4ade80; }
+
+.menu-grid {
+    max-width: 780px;
+    margin: 0 auto;
+}
+
+.glass-card p {
+    min-height: 2.8em;
+    line-height: 1.4;
+}
+
+.grid-message {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 40px;
+    color: rgba(255, 255, 255, 0.78);
+}
+
+.grid-message.error {
+    color: #ff8a8a;
+}
+
+.folder-item {
+    cursor: pointer;
+    font: inherit;
+}
+
+.item-icon {
+    font-size: 45px;
+    margin-bottom: 15px;
+}
+
+.file-item img {
+    aspect-ratio: 4 / 3;
+    max-height: 180px;
+}
+
+@media (max-width: 640px) {
+    .main-title { font-size: 2.5rem; }
+    .nav-header { align-items: flex-start; flex-direction: column; gap: 16px; }
+    .btn-back { margin-right: 0; }
+    .file-grid { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+}
